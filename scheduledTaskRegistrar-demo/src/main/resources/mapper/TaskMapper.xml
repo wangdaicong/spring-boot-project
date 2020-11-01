@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scheduledtask.mapper.TaskMapper">
+
+    <insert id="insertOrUpdateTask" parameterType="com.scheduledtask.pojo.Task">
+    INSERT INTO task (
+        beanName,
+        methodName,
+        methodParams,
+        cronExpression,
+        jobStatus,
+        remark,
+        createTime,
+        updateTime
+    )
+    VALUE
+        (
+            #{beanName},#{methodName},#{methodParams},#{cronExpression},#{jobStatus},#{remark},#{createTime},#{updateTime}
+        )
+    ON DUPLICATE KEY UPDATE
+            methodName = VALUES(methodName),
+            methodParams = VALUES(methodParams),
+            cronExpression = VALUES(cronExpression),
+            jobStatus = VALUES(jobStatus),
+            remark = VALUES(remark),
+            updateTime = VALUES(updateTime)
+    </insert>
+
+</mapper>
