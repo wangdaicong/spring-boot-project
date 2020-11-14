@@ -1,6 +1,6 @@
-package com.scheduledtask.task;
+package cn.goitman.task;
 
-import com.scheduledtask.util.SpringContextUtils;
+import cn.goitman.util.SpringContextUtils;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;

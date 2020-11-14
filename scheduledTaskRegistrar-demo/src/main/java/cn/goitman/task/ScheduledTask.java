@@ -1,4 +1,4 @@
-package com.scheduledtask.task;
+package cn.goitman.task;
 
 import java.util.concurrent.ScheduledFuture;
 

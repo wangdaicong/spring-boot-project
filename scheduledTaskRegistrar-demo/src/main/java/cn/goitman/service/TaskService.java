@@ -1,7 +1,7 @@
-package com.scheduledtask.service;
+package cn.goitman.service;
 
-import com.scheduledtask.mapper.TaskMapper;
-import com.scheduledtask.pojo.Task;
+import cn.goitman.mapper.TaskMapper;
+import cn.goitman.pojo.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

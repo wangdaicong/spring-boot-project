@@ -1,4 +1,4 @@
-package com.scheduledtask.util;
+package cn.goitman.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

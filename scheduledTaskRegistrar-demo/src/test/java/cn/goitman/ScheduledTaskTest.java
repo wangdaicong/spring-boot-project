@@ -1,7 +1,7 @@
-package com.scheduledtask;
+package cn.goitman;
 
-import com.scheduledtask.controller.TaskController;
-import com.scheduledtask.service.TaskService;
+import cn.goitman.controller.TaskController;
+import cn.goitman.service.TaskService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

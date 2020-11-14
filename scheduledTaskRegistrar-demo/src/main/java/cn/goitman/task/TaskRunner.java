@@ -1,7 +1,7 @@
-package com.scheduledtask.task;
+package cn.goitman.task;
 
-import com.scheduledtask.pojo.Task;
-import com.scheduledtask.service.TaskService;
+import cn.goitman.pojo.Task;
+import cn.goitman.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

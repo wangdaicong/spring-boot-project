@@ -1,4 +1,4 @@
-package com.scheduledtask.enums;
+package cn.goitman.enums;
 
 import lombok.AllArgsConstructor;
 

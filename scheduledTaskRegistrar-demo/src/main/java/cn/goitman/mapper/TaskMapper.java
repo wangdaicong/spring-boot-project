@@ -1,6 +1,6 @@
-package com.scheduledtask.mapper;
+package cn.goitman.mapper;
 
-import com.scheduledtask.pojo.Task;
+import cn.goitman.pojo.Task;
 import org.springframework.stereotype.Repository;
 import tk.mybatis.mapper.common.Mapper;
 

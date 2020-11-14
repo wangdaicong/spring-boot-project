@@ -1,4 +1,4 @@
-package com.scheduledtask.task;
+package cn.goitman.task;
 
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;

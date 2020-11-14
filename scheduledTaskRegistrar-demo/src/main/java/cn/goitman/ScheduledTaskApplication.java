@@ -1,4 +1,4 @@
-package com.scheduledtask;
+package cn.goitman;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

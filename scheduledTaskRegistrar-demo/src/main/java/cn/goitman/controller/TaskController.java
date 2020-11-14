@@ -1,10 +1,10 @@
-package com.scheduledtask.controller;
+package cn.goitman.controller;
 
-import com.scheduledtask.enums.TaskStatus;
-import com.scheduledtask.pojo.Task;
-import com.scheduledtask.service.TaskService;
-import com.scheduledtask.task.CronTaskRegistrar;
-import com.scheduledtask.task.SchedulingRunnable;
+import cn.goitman.enums.TaskStatus;
+import cn.goitman.task.CronTaskRegistrar;
+import cn.goitman.pojo.Task;
+import cn.goitman.service.TaskService;
+import cn.goitman.task.SchedulingRunnable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.scheduledtask.pojo;
+package cn.goitman.pojo;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
