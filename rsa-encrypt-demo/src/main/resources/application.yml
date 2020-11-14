@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+rsa:
+  encrypt:
+    open: true # 是否开启加密 true  or  false
+    showLog: true # 是否打印加解密log true  or  false
+    # RSA公钥 java生成
+    publicKey:
+    # RSA私钥 java生成
+    privateKey:

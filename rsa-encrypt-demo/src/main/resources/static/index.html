@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <title>Title</title>
+</head>
+<body>
+<!--<button id="jiami" onclick="zhujie1()">前端解密，后端 注解 加密</button>
+<button id="jiami1" onclick="zhujie2()">前端加密，后端 注解 解密</button>-->
+
+<button id="jiami3" onclick="shoudong1()">前端解密，后端 手动 加密</button>
+<button id="jiami4" onclick="shoudong2()">前端加密，后端 手动 解密</button>
+
+<button id="jiami5" onclick="jiaqian1()">前端验签解密，后端 手动 加密加签</button>
+<button id="jiami6" onclick="jiaqian2()">前端加密加签，后端 手动 验签解密</button>
+<script src="js/jsrsasign-all-min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jsencrypt/3.0.0-rc.1/jsencrypt.js"></script>
+<script>
+
+    var PUBLIC_KEY = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCYXuc2xustPv5d1LrzpSYu0VjUab+Wc55KQSmXmueJWVbKQeGBHbGF9sr3CN8R8fw6HxUAgu5iZD+Nh2PEJ4Dl31FYzVSKTm7Z3Y92mLrvdigGAm9fxSCInnXcQkUS0TFLhrviGF3zSfmfk0oKlwI1S/grTNGEjWeG1NUBtRPXdwIDAQAB';
+
+    var PRIVATE_KEY = 'MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJhe5zbG6y0+/l3UuvOlJi7RWNRpv5ZznkpBKZea54lZVspB4YEdsYX2yvcI3xHx/DofFQCC7mJkP42HY8QngOXfUVjNVIpObtndj3aYuu92KAYCb1/FIIieddxCRRLRMUuGu+IYXfNJ+Z+TSgqXAjVL+CtM0YSNZ4bU1QG1E9d3AgMBAAECgYBF7hhzvWumAmk/qyh6NeuGRTJdmoMBi+Kz9aAfIkrtcIEypnXWikg1UYTpR7sJQ2QdULKU34KEybmZPO/+0JqJL+d2IYbvG5Vf2REo1rzhK1mAYzaAPGIP2/AJZ9S8dwaeqVx2UsyJEIxzKQMwRFYe3FlBtP+g3CwGAMlpAbDLgQJBANRUA6dj7imItZWQkt/mNfqc1XPnbCJ0YBO3eygE60CydjQu6cv0aR6dfoCk1Sy9AP8ELfg62iPtxmbrKmhzJdcCQQC3td9LLQReMTt+/IqPOweufG74y115Jv1w9KKj0xKLNZJOLvDZVV6MehL3QNnFQHY9zVklqdWIDq3ikrAjb2dhAkEAsS6+sdO5LZ2wcfPoLMEt8Ekp8oN/AC1+81Uch6O7MQz7iMZRQWpewjaJFw71+VRrXWN+fPOXj33fH4lEpU7ZlwJAIAPM5w/wS+3ufWHLT8ysuQasXCUso/lcf3vSgBQ/jg0G8yMRC/7pnDeF6JrfmJV0Ra7skzi2oqBUQ0Dm+zXl4QJAGO3UdByaEP2ceIKPRrz4OSdkguGJPK5v6h0Bo/fcUuLPsyQadAOlAM+RTckbb4GjmbJC1CE6wuy2y1SWVb2lCw=='
+
+    var ALGORITHM = 'MD5withRSA';
+
+    /**
+     * 加密方法
+     */
+    function RSA_encryption(jsonData) {
+        var encrypt = new JSEncrypt();
+        encrypt.setPublicKey(PUBLIC_KEY);
+        var encrypted = encrypt.encrypt(JSON.stringify(jsonData));
+        console.log('加密前数据:%o', jsonData);
+        console.log('加密后数据:%o', encrypted);
+        return encrypted;
+    }
+
+    /**
+     * 解密方法
+     */
+    function RSA_decryption(jsonData) {
+        var decrypt = new JSEncrypt();
+        decrypt.setPrivateKey(PRIVATE_KEY);
+        var decrypted = decrypt.decrypt(JSON.stringify(jsonData));
+        console.log('解密前数据:%o', jsonData);
+        console.log('解密后数据:%o', decrypted);
+        return decrypted;
+    }
+
+    /**
+     * 私钥加签
+     */
+    function RSA_sign(encryptDate) {
+        // prvkeypem：传入pem标准格式的秘钥字符串, 解析生成秘钥实例: RSAKey. 标准的pem格式秘钥含有开始标记和结束标记, 如本文使用的秘钥: -----BEGIN xxx-----, -----END xxx-----. 至于xxx的具体内容不是太重要, 代码里自动通过正则清洗掉头和尾标记
+        var signature = new KJUR.crypto.Signature({alg: ALGORITHM, prvkeypem: '-----BEGIN PRIVATE KEY-----' + PRIVATE_KEY + '-----END PRIVATE KEY-----'});
+        signature.updateString(encryptDate); // 传入待签明文
+        var sign = hextob64(signature.sign()); // 签名, hextob64得到16进制字符结果
+        console.log('私钥加签数据:%o', sign);
+        return sign + "&" + encryptDate;
+    }
+
+    /**
+     * 公钥验签
+     */
+    function RSA_verify(encryptDate, sign) {
+        var signature = new KJUR.crypto.Signature({alg: ALGORITHM, prvkeypem: '-----BEGIN PUBLIC KEY-----' + PUBLIC_KEY + '-----END PUBLIC KEY-----'});
+        signature.updateString(encryptDate); // 传入签密文
+        var result = signature.verify(b64tohex(sign));// 解签, b64tohex得到字符结果
+        console.log('加签:%o', sign);
+        console.log('验签结果:%o', result);
+        return result;
+    }
+
+    /**
+     * 前端解密，后端 注解 加密
+     */
+    function zhujie1() {
+        $.ajax({
+            url: "/encrypt",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            success: function (reslut) {
+                var res = RSA_decryption(reslut)
+                alert(res);
+            }
+        })
+    }
+
+    /**
+     * 前端加密，后端 注解 解密
+     */
+    function zhujie2() {
+        var str = {
+            "name": "前端加密用户",
+            "passWord": "前端加密密码"
+        };
+        $.ajax({
+            url: "/decrypt",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: RSA_encryption(str),
+            success: function (data) {
+                alert(data);
+            }
+        })
+    }
+
+    /**
+     * 前端解密，后端 手动 加密
+     */
+    function shoudong1() {
+        $.ajax({
+            url: "/encryption",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            success: function (reslut) {
+                var res = RSA_decryption(reslut)
+                alert(res);
+            }
+        })
+    }
+
+    /**
+     * 前端加密，后端 手动 解密
+     */
+    function shoudong2() {
+        var str = {
+            "name": "加密用户1",
+            "passWord": "加密密码1"
+        };
+        $.ajax({
+            url: "/decryption",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: RSA_encryption(str),
+            success: function (data) {
+                alert(data);
+            }
+        })
+    }
+
+    /**
+     * 前端验签解密，后端 手动 加密加签
+     */
+    function jiaqian1() {
+        $.ajax({
+            url: "/signature",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            success: function (reslut) {
+                var res = reslut.split("&");
+                var re = RSA_verify(res[1], res[0]);
+                var encryptDate = JSON.stringify(RSA_decryption(res[1]));
+            }
+        })
+    }
+
+    /**
+     * 前端加密加签，后端 手动 验签解密
+     */
+    function jiaqian2() {
+        var str = {
+            "name": "手动解签解密1",
+            "passWord": "手动解签解密1"
+        };
+        var encryptDate = RSA_encryption(str);
+        var sign = RSA_sign(encryptDate)
+        $.ajax({
+            url: "/verify",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: sign,
+            success: function (data) {
+                alert(data);
+            }
+        })
+    }
+
+</script>
+</body>
+</html>
