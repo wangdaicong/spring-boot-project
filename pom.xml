@@ -8,6 +8,7 @@
         <module>bloomFilter-demo</module>
         <module>redis-bloomFilter-demo</module>
         <module>scheduledTaskRegistrar-demo</module>
+        <module>rsa-encrypt-demo</module>
     </modules>
 
     <parent>
