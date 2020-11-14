@@ -1,4 +1,4 @@
-package com.bloomFilter;
+package cn.goitman;
 
 import java.util.HashMap;
 import java.util.Map;
