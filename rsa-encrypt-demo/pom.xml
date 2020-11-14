@@ -18,11 +18,6 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-        </dependency>
-
         <!--RSA加解密依赖-->
         <dependency>
             <groupId>cn.shuibo</groupId>
