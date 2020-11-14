@@ -1,4 +1,4 @@
-package com.bloomFiter.util;
+package cn.goitman.util;
 
 /**
  * @author Nicky
@@ -9,7 +9,7 @@ package com.bloomFiter.util;
  * @date 2020/8/3 11:13
  */
 
-import com.bloomFiter.config.BloomFilterHelper;
+import cn.goitman.config.BloomFilterHelper;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

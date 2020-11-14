@@ -1,7 +1,7 @@
-package com.bloomFiter;
+package cn.goitman;
 
-import com.bloomFiter.config.BloomFilterHelper;
-import com.bloomFiter.util.RedisBloomFilter;
+import cn.goitman.util.RedisBloomFilter;
+import cn.goitman.config.BloomFilterHelper;
 import com.google.common.base.Charsets;
 import com.google.common.hash.Funnels;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 

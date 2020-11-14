@@ -1,4 +1,4 @@
-package com.bloomFiter.config;
+package cn.goitman.config;
 
 /**
  * @author Nicky
