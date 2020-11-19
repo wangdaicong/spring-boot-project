@@ -52,7 +52,6 @@
      * 私钥加签
      */
     function RSA_sign(encryptDate) {
-        // prvkeypem：传入pem标准格式的秘钥字符串, 解析生成秘钥实例: RSAKey. 标准的pem格式秘钥含有开始标记和结束标记, 如本文使用的秘钥: -----BEGIN xxx-----, -----END xxx-----. 至于xxx的具体内容不是太重要, 代码里自动通过正则清洗掉头和尾标记
         var signature = new KJUR.crypto.Signature({alg: ALGORITHM, prvkeypem: '-----BEGIN PRIVATE KEY-----' + PRIVATE_KEY + '-----END PRIVATE KEY-----'});
         signature.updateString(encryptDate); // 传入待签明文
         var sign = hextob64(signature.sign()); // 签名, hextob64得到16进制字符结果
