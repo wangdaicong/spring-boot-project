@@ -1,10 +1,10 @@
 package cn.goitman.controller;
 
+import cn.goitman.pojo.Consumer;
 import cn.goitman.util.CreateRsaSecrteKeyUtil;
 import cn.shuibo.annotation.Decrypt;
 import cn.shuibo.annotation.Encrypt;
 import com.alibaba.fastjson.JSON;
-import cn.goitman.pojo.Consumer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

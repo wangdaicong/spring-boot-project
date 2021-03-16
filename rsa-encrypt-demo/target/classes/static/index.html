@@ -2,14 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
-    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
-    <META HTTP-EQUIV="Expires" CONTENT="0">
     <title>Title</title>
 </head>
 <body>
-<!--<button id="jiami" onclick="zhujie1()">前端解密，后端 注解 加密</button>
-<button id="jiami1" onclick="zhujie2()">前端加密，后端 注解 解密</button>-->
+<button id="jiami" onclick="zhujie1()">前端解密，后端 注解 加密</button>
+<button id="jiami1" onclick="zhujie2()">前端加密，后端 注解 解密</button>
 
 <button id="jiami3" onclick="shoudong1()">前端解密，后端 手动 加密</button>
 <button id="jiami4" onclick="shoudong2()">前端加密，后端 手动 解密</button>
@@ -58,7 +55,7 @@
         // prvkeypem：传入pem标准格式的秘钥字符串, 解析生成秘钥实例: RSAKey. 标准的pem格式秘钥含有开始标记和结束标记, 如本文使用的秘钥: -----BEGIN xxx-----, -----END xxx-----. 至于xxx的具体内容不是太重要, 代码里自动通过正则清洗掉头和尾标记
         var signature = new KJUR.crypto.Signature({alg: ALGORITHM, prvkeypem: '-----BEGIN PRIVATE KEY-----' + PRIVATE_KEY + '-----END PRIVATE KEY-----'});
         signature.updateString(encryptDate); // 传入待签明文
-        var sign = hextob64(signature.sign()); // 签名, hextob64得到16进制字符结果
+        var sign = hextob64(signature.sign()); // 签名, 得到16进制字符结果 b64tohex
         console.log('私钥加签数据:%o', sign);
         return sign + "&" + encryptDate;
     }
@@ -68,8 +65,8 @@
      */
     function RSA_verify(encryptDate, sign) {
         var signature = new KJUR.crypto.Signature({alg: ALGORITHM, prvkeypem: '-----BEGIN PUBLIC KEY-----' + PUBLIC_KEY + '-----END PUBLIC KEY-----'});
-        signature.updateString(encryptDate); // 传入签密文
-        var result = signature.verify(b64tohex(sign));// 解签, b64tohex得到字符结果
+        signature.updateString(encryptDate); // 传入签文
+        var result = signature.verify(b64tohex(sign));// 解签, 得到字符结果
         console.log('加签:%o', sign);
         console.log('验签结果:%o', result);
         return result;
@@ -154,7 +151,8 @@
             success: function (reslut) {
                 var res = reslut.split("&");
                 var re = RSA_verify(res[1], res[0]);
-                var encryptDate = JSON.stringify(RSA_decryption(res[1]));
+                var encryptDate = RSA_decryption(res[1]);
+                alert('验签结果：' + re + '\n' + '解密后数据：' + encryptDate);
             }
         })
     }

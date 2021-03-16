@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>RSA实现接口数据加解密</title>
 </head>
 <body>
 <!--<button id="jiami" onclick="zhujie1()">前端解密，后端 注解 加密</button>
@@ -18,9 +18,9 @@
 <script src="https://cdn.bootcdn.net/ajax/libs/jsencrypt/3.0.0-rc.1/jsencrypt.js"></script>
 <script>
 
-    var PUBLIC_KEY = '';
+    var PUBLIC_KEY = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCYXuc2xustPv5d1LrzpSYu0VjUab+Wc55KQSmXmueJWVbKQeGBHbGF9sr3CN8R8fw6HxUAgu5iZD+Nh2PEJ4Dl31FYzVSKTm7Z3Y92mLrvdigGAm9fxSCInnXcQkUS0TFLhrviGF3zSfmfk0oKlwI1S/grTNGEjWeG1NUBtRPXdwIDAQAB';
 
-    var PRIVATE_KEY = '';
+    var PRIVATE_KEY = 'MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJhe5zbG6y0+/l3UuvOlJi7RWNRpv5ZznkpBKZea54lZVspB4YEdsYX2yvcI3xHx/DofFQCC7mJkP42HY8QngOXfUVjNVIpObtndj3aYuu92KAYCb1/FIIieddxCRRLRMUuGu+IYXfNJ+Z+TSgqXAjVL+CtM0YSNZ4bU1QG1E9d3AgMBAAECgYBF7hhzvWumAmk/qyh6NeuGRTJdmoMBi+Kz9aAfIkrtcIEypnXWikg1UYTpR7sJQ2QdULKU34KEybmZPO/+0JqJL+d2IYbvG5Vf2REo1rzhK1mAYzaAPGIP2/AJZ9S8dwaeqVx2UsyJEIxzKQMwRFYe3FlBtP+g3CwGAMlpAbDLgQJBANRUA6dj7imItZWQkt/mNfqc1XPnbCJ0YBO3eygE60CydjQu6cv0aR6dfoCk1Sy9AP8ELfg62iPtxmbrKmhzJdcCQQC3td9LLQReMTt+/IqPOweufG74y115Jv1w9KKj0xKLNZJOLvDZVV6MehL3QNnFQHY9zVklqdWIDq3ikrAjb2dhAkEAsS6+sdO5LZ2wcfPoLMEt8Ekp8oN/AC1+81Uch6O7MQz7iMZRQWpewjaJFw71+VRrXWN+fPOXj33fH4lEpU7ZlwJAIAPM5w/wS+3ufWHLT8ysuQasXCUso/lcf3vSgBQ/jg0G8yMRC/7pnDeF6JrfmJV0Ra7skzi2oqBUQ0Dm+zXl4QJAGO3UdByaEP2ceIKPRrz4OSdkguGJPK5v6h0Bo/fcUuLPsyQadAOlAM+RTckbb4GjmbJC1CE6wuy2y1SWVb2lCw=='
 
     var ALGORITHM = 'MD5withRSA';
 
@@ -52,6 +52,7 @@
      * 私钥加签
      */
     function RSA_sign(encryptDate) {
+        // prvkeypem：传入pem标准格式的秘钥字符串, 解析生成秘钥实例: RSAKey. 标准的pem格式秘钥含有开始标记和结束标记, 如本文使用的秘钥: -----BEGIN xxx-----, -----END xxx-----. 至于xxx的具体内容不是太重要, 代码里自动通过正则清洗掉头和尾标记
         var signature = new KJUR.crypto.Signature({alg: ALGORITHM, prvkeypem: '-----BEGIN PRIVATE KEY-----' + PRIVATE_KEY + '-----END PRIVATE KEY-----'});
         signature.updateString(encryptDate); // 传入待签明文
         var sign = hextob64(signature.sign()); // 签名, hextob64得到16进制字符结果

@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2020/11/2 16:31
  */
 @SpringBootApplication
-@EnableSecurity
+@EnableSecurity // 启用加解密注解
 public class RsaEncryptApplication {
     public static void main(String[] args) {
         SpringApplication.run(RsaEncryptApplication.class, args);
