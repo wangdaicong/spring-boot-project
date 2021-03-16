@@ -8,6 +8,10 @@
         <module>bloomFilter-demo</module>
         <module>redis-bloomFilter-demo</module>
         <module>scheduledTaskRegistrar-demo</module>
+        <module>rsa-encrypt-demo</module>
+        <module>oauth-demo</module>
+        <module>scaffold-demo</module>
+        <module>imageProcessing-demo</module>
     </modules>
 
     <parent>
@@ -17,7 +21,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.example</groupId>
+    <groupId>cn.goitman</groupId>
     <artifactId>spring-boot-project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-boot-project</name>

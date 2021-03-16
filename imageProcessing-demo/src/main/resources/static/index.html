@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>图上上传处理</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+</head>
+
+<body>
+<form enctype="multipart/form-data" method="post" id="upload" role="form">
+    <input type="file" name="file" id="file" accept="image/jpeg,image/jpg,image/png,image/gif">
+    <input type="button" id="but" value="上传图片">
+</form>
+
+</br></br>
+<input type="text" style="border:none;width:500px" name="tbg" id="tbg">
+</br></br>
+<img src="" alt="" id="tbgShow">
+
+</br></br>
+<input type="text" style="border:none;width:500px" name="ntbg" id="ntbg">
+</br></br>
+<img src="" alt="" id="ntbgShow">
+
+</br></br>
+<input type="text" style="border:none;width:300px" name="ppt" id="ppt">
+</br></br>
+<img src="" alt="" id="pptShow">
+
+</br></br>
+<input type="text" style="border:none;width:300px" name="rt" id="rt">
+</br></br>
+<img src="" alt="" id="rtShow">
+
+</br></br>
+<input type="text" style="border:none;width:300px" name="cp" id="cp">
+</br></br>
+<img src="" alt="" id="cpShow">
+
+</br></br>
+<input type="text" style="border:none;width:300px" name="wm" id="wm">
+</br></br>
+<img src="" alt="" id="wmShow">
+
+</br></br>
+<input type="text" style="border:none;width:300px" name="ti" id="ti">
+</br></br>
+<img src="" alt="" id="tiShow">
+
+</br></br>
+<input type="text" style="border:none;width:300px" name="ci" id="ci">
+</br></br>
+<img src="" alt="" id="ciShow">
+
+</br></br>
+<input type="text" style="border:none;width:300px" name="os" id="os">
+</br></br>
+<img src="" alt="" id="osShow">
+
+</br></br>
+<input type="text" style="border:none;width:300px" name="bi" id="bi">
+</br></br>
+<img src="" alt="" id="biShow">
+
+</br></br>
+<input type="text" style="border:none;" name="avatar" id="avatar">
+</br></br>
+<img src="" alt="" id="avatarShow">
+
+<script type="text/javascript">
+    $("#but").click(function () {
+            var data = new FormData($("#upload")[0]);
+            if ($("#file").val() != "" && $("#file")[0].files[0].size / 1000 < 1024 * 5) { // 限制图片大小
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "/process",
+                    dataType: "json",
+                    data: data,
+                    fileElementId: "file",
+                    cache: false,   // 上传文件不需要缓存
+                    contentType: false, // 不设置contentType值，已经声明属性enctype="multipart/form-data"，所以这里设置为false。
+                    processData: false, // data值是FormData对象，不需要对数据做处理
+                    success: function (d) {
+                        if (
+                            d.hasOwnProperty("srcPath") || d.hasOwnProperty("tbgPath") ||
+                            d.hasOwnProperty("pptPath") || d.hasOwnProperty("ntbgPath") ||
+                            d.hasOwnProperty("rtPath") || d.hasOwnProperty("cpPath") ||
+                            d.hasOwnProperty("wmPath") || d.hasOwnProperty("tiPath") ||
+                            d.hasOwnProperty("ciPath") || d.hasOwnProperty("osPath") ||
+                            d.hasOwnProperty("biPath")
+                        ) {
+                            //图片显示
+                            $("#avatar").attr("value", d.srcMsg);
+                            $("#avatarShow").attr("src", d.srcPath);
+
+                            $("#tbg").attr("value", d.tbgMsg);
+                            $("#tbgShow").attr("src", d.tbgPath);
+
+                            $("#ntbg").attr("value", d.ntbgMsg);
+                            $("#ntbgShow").attr("src", d.ntbgPath);
+
+                            $("#ppt").attr("value", d.pptMsg);
+                            $("#pptShow").attr("src", d.pptPath);
+
+                            $("#rt").attr("value", d.rtMsg);
+                            $("#rtShow").attr("src", d.rtPath);
+
+                            $("#cp").attr("value", d.cpMsg);
+                            $("#cpShow").attr("src", d.cpPath);
+
+                            $("#wm").attr("value", d.wmMsg);
+                            $("#wmShow").attr("src", d.wmPath);
+
+                            $("#ti").attr("value", d.tiMsg);
+                            $("#tiShow").attr("src", d.tiPath);
+
+                            $("#ci").attr("value", d.ciMsg);
+                            $("#ciShow").attr("src", d.ciPath);
+
+                            $("#os").attr("value", d.osMsg);
+                            $("#osShow").attr("src", d.osPath);
+
+                            $("#bi").attr("value", d.biMsg);
+                            $("#biShow").attr("src", d.biPath);
+                        } else {
+                            alert("上传失败");
+                        }
+                    },
+                    error: function (e) {
+                        alert("上传异常");
+                    }
+                });
+            }
+        }
+    )
+</script>
+</body>
+</html>
