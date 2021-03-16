@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/bloomFilter-demo/bloomFilter-demo.iml" filepath="$PROJECT_DIR$/bloomFilter-demo/bloomFilter-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imageProcessing-demo/imageProcessing-demo.iml" filepath="$PROJECT_DIR$/imageProcessing-demo/imageProcessing-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oauth-demo/oauth-demo.iml" filepath="$PROJECT_DIR$/oauth-demo/oauth-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/redis-bloomFilter-demo/redis-bloomFilter-demo.iml" filepath="$PROJECT_DIR$/redis-bloomFilter-demo/redis-bloomFilter-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rsa-encrypt-demo/rsa-encrypt-demo.iml" filepath="$PROJECT_DIR$/rsa-encrypt-demo/rsa-encrypt-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scaffold-demo/scaffold-demo.iml" filepath="$PROJECT_DIR$/scaffold-demo/scaffold-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scheduledTaskRegistrar-demo/scheduledTaskRegistrar-demo.iml" filepath="$PROJECT_DIR$/scheduledTaskRegistrar-demo/scheduledTaskRegistrar-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-project.iml" filepath="$PROJECT_DIR$/spring-boot-project.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="oauth-demo" />
+        <module name="rsa-encrypt-demo" />
+        <module name="bloomFilter-demo" />
+        <module name="redis-bloomFilter-demo" />
+        <module name="scaffold-demo" />
+        <module name="scheduledTaskRegistrar-demo" />
+        <module name="imageProcessing-demo" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bloomFilter-demo" target="1.8" />
+      <module name="echarts-demo" target="1.8" />
+      <module name="fileCompression-demo" target="1.8" />
+      <module name="imageProcessing-demo" target="1.8" />
+      <module name="oauth-demo" target="1.8" />
+      <module name="redis-bloomFilter-demo" target="1.8" />
+      <module name="rsa-encrypt-demo" target="1.8" />
+      <module name="scaffold-demo" target="1.8" />
+      <module name="scheduledTaskRegistrar-demo" target="1.8" />
+      <module name="shortLink-demo" target="1.8" />
+      <module name="spring-boot-project" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="bloomFilter-demo" options="-parameters" />
+      <module name="echarts-demo" options="-parameters" />
+      <module name="fileCompression-demo" options="-parameters" />
+      <module name="imageProcessing-demo" options="-parameters" />
+      <module name="oauth-demo" options="-parameters" />
+      <module name="redis-bloomFilter-demo" options="-parameters" />
+      <module name="rsa-encrypt-demo" options="-parameters" />
+      <module name="scaffold-demo" options="-parameters" />
+      <module name="scheduledTaskRegistrar-demo" options="-parameters" />
+      <module name="shortLink-demo" options="-parameters" />
+      <module name="spring-boot-project" options="-parameters" />
+    </option>
+  </component>
+</project>
