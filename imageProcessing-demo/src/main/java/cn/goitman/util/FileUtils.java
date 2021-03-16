@@ -25,7 +25,6 @@ public class FileUtils {
 
         //确定上传的文件名
         String realPath = path + "\\" + fileName;
-//        System.out.println("上传文件：" + realPath);
 
         File dest = new File(realPath);
 
@@ -39,11 +38,9 @@ public class FileUtils {
             file.transferTo(dest);
             return true;
         } catch (IllegalStateException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return false;
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return false;
         }
