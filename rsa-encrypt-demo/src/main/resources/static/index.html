@@ -2,25 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RSA实现接口数据加解密</title>
+    <title>非对称加解密加验签与对称加解密</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+
+    <!--非对称-->
+<!--    <script src="js/jsencrypt.js"></script>-->
+    <!--非对称加验签-->
+<!--    <script src="js/jsrsasign-all-min.js"></script>-->
+    <!--对称加解密-->
+    <script src="https://cdn.bootcss.com/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+    <!--    <script src="js/crypto-js.js"></script>-->
+
 </head>
 <body>
-<!--<button id="jiami" onclick="zhujie1()">前端解密，后端 注解 加密</button>
-<button id="jiami1" onclick="zhujie2()">前端加密，后端 注解 解密</button>-->
+<button id="jiami" onclick="zhujie1()">前端解密，后端 注解 加密</button>
+<button id="jiami1" onclick="zhujie2()">前端加密，后端 注解 解密</button>
 
 <button id="jiami3" onclick="shoudong1()">前端解密，后端 手动 加密</button>
 <button id="jiami4" onclick="shoudong2()">前端加密，后端 手动 解密</button>
 
 <button id="jiami5" onclick="jiaqian1()">前端验签解密，后端 手动 加密加签</button>
 <button id="jiami6" onclick="jiaqian2()">前端加密加签，后端 手动 验签解密</button>
-<script src="js/jsrsasign-all-min.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/jsencrypt/3.0.0-rc.1/jsencrypt.js"></script>
+
+<button id="jiami7" onclick="aesDecode()">AES后端加密，前端解密</button>
+<button id="jiami8" onclick="aesEncode()">AES前端加密，后端解密</button>
+
 <script>
 
-    var PUBLIC_KEY = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCYXuc2xustPv5d1LrzpSYu0VjUab+Wc55KQSmXmueJWVbKQeGBHbGF9sr3CN8R8fw6HxUAgu5iZD+Nh2PEJ4Dl31FYzVSKTm7Z3Y92mLrvdigGAm9fxSCInnXcQkUS0TFLhrviGF3zSfmfk0oKlwI1S/grTNGEjWeG1NUBtRPXdwIDAQAB';
+    var PUBLIC_KEY = '';
 
-    var PRIVATE_KEY = 'MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJhe5zbG6y0+/l3UuvOlJi7RWNRpv5ZznkpBKZea54lZVspB4YEdsYX2yvcI3xHx/DofFQCC7mJkP42HY8QngOXfUVjNVIpObtndj3aYuu92KAYCb1/FIIieddxCRRLRMUuGu+IYXfNJ+Z+TSgqXAjVL+CtM0YSNZ4bU1QG1E9d3AgMBAAECgYBF7hhzvWumAmk/qyh6NeuGRTJdmoMBi+Kz9aAfIkrtcIEypnXWikg1UYTpR7sJQ2QdULKU34KEybmZPO/+0JqJL+d2IYbvG5Vf2REo1rzhK1mAYzaAPGIP2/AJZ9S8dwaeqVx2UsyJEIxzKQMwRFYe3FlBtP+g3CwGAMlpAbDLgQJBANRUA6dj7imItZWQkt/mNfqc1XPnbCJ0YBO3eygE60CydjQu6cv0aR6dfoCk1Sy9AP8ELfg62iPtxmbrKmhzJdcCQQC3td9LLQReMTt+/IqPOweufG74y115Jv1w9KKj0xKLNZJOLvDZVV6MehL3QNnFQHY9zVklqdWIDq3ikrAjb2dhAkEAsS6+sdO5LZ2wcfPoLMEt8Ekp8oN/AC1+81Uch6O7MQz7iMZRQWpewjaJFw71+VRrXWN+fPOXj33fH4lEpU7ZlwJAIAPM5w/wS+3ufWHLT8ysuQasXCUso/lcf3vSgBQ/jg0G8yMRC/7pnDeF6JrfmJV0Ra7skzi2oqBUQ0Dm+zXl4QJAGO3UdByaEP2ceIKPRrz4OSdkguGJPK5v6h0Bo/fcUuLPsyQadAOlAM+RTckbb4GjmbJC1CE6wuy2y1SWVb2lCw=='
+    var PRIVATE_KEY = ''
 
     var ALGORITHM = 'MD5withRSA';
 
@@ -30,20 +41,21 @@
     function RSA_encryption(jsonData) {
         var encrypt = new JSEncrypt();
         encrypt.setPublicKey(PUBLIC_KEY);
-        var encrypted = encrypt.encrypt(JSON.stringify(jsonData));
+        var encrypted = encrypt.encryptLong(JSON.stringify(jsonData));
         console.log('加密前数据:%o', jsonData);
         console.log('加密后数据:%o', encrypted);
+        console.log('加密前数据:%o', jsonData.length + " "+encrypted.length);
         return encrypted;
     }
 
     /**
-     * 解密方法
+     * 私钥解密方法
      */
     function RSA_decryption(jsonData) {
         var decrypt = new JSEncrypt();
         decrypt.setPrivateKey(PRIVATE_KEY);
-        var decrypted = decrypt.decrypt(JSON.stringify(jsonData));
-        console.log('解密前数据:%o', jsonData);
+        var decrypted = decrypt.decryptLong(jsonData);
+        console.log('解密前数据:%o', jsonData);0
         console.log('解密后数据:%o', decrypted);
         return decrypted;
     }
@@ -60,6 +72,7 @@
         return sign + "&" + encryptDate;
     }
 
+
     /**
      * 公钥验签
      */
@@ -72,6 +85,7 @@
         return result;
     }
 
+    // ====================================================================================================
     /**
      * 前端解密，后端 注解 加密
      */
@@ -106,6 +120,7 @@
         })
     }
 
+    // ====================================================================================================
     /**
      * 前端解密，后端 手动 加密
      */
@@ -140,6 +155,7 @@
         })
     }
 
+    // ====================================================================================================
     /**
      * 前端验签解密，后端 手动 加密加签
      */
@@ -152,6 +168,7 @@
                 var res = reslut.split("&");
                 var re = RSA_verify(res[1], res[0]);
                 var encryptDate = JSON.stringify(RSA_decryption(res[1]));
+                alert(re + ": " + encryptDate);
             }
         })
     }
@@ -177,6 +194,89 @@
         })
     }
 
+    // ====================================================================================================
+
+    /**
+     * 生成随机密钥
+     */
+    function randomString(length) {
+        var str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var result = '';
+        for (var i = length; i > 0; --i)
+            result += str[Math.floor(Math.random() * str.length)];
+        return result.toString();
+    }
+
+    //aes加密
+    function encryptAES(context, key) {
+        var encrypted = '';
+        if (typeof (context) == 'string') {
+
+        } else if (typeof (context) == 'object') {
+            context = JSON.stringify(context);
+        }
+        var srcs = CryptoJS.enc.Utf8.parse(context);
+        encrypted = CryptoJS.AES.encrypt(srcs, CryptoJS.enc.Utf8.parse(key), {
+            iv: CryptoJS.enc.Utf8.parse("初始向量"),
+            // mode: CryptoJS.mode.ECB,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        return encrypted.toString();
+    }
+
+    // aes解密
+    function decryptAES(context, key) {
+        var decrypt = CryptoJS.AES.decrypt(context, CryptoJS.enc.Utf8.parse(key), {
+            iv:CryptoJS.enc.Utf8.parse("初始向量"),
+            // mode: CryptoJS.mode.ECB,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        var decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
+        return decryptedStr.toString();
+    }
+
+    /**
+     * AES后端加密，前端解密
+     */
+    function aesDecode() {
+        $.ajax({
+            url: "/encodeAES",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            success: function (reslut) {
+                var res = reslut.split("&");
+                var key = res[1];
+                var encryptDate = decryptAES(res[0], key);
+                alert(encryptDate + " : " + key);
+            }
+        })
+    }
+
+    /**
+     * AES前端加密，后端解密
+     */
+    function aesEncode() {
+        var k = randomString(16);
+        var str = {
+            "name": "AES加解密",
+            "passWord": "AES加解密"
+        };
+        var encryptDate = encryptAES(str,k)
+        $.ajax({
+            url: "/decodeAES",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            headers: {
+                "encodeKey": RSA_encryption(k)
+            },
+            data: encryptDate,
+            success: function (data) {
+                alert(data);
+            }
+        })
+    }
 </script>
 </body>
 </html>

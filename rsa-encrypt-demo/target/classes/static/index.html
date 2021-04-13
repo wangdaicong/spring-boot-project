@@ -2,7 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>非对称加解密加验签与对称加解密</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+
+    <!--非对称-->
+<!--    <script src="js/jsencrypt.js"></script>-->
+    <!--非对称加验签-->
+<!--    <script src="js/jsrsasign-all-min.js"></script>-->
+    <!--对称加解密-->
+    <script src="https://cdn.bootcss.com/crypto-js/3.1.9-1/crypto-js.min.js"></script>
+    <script src="js/wx_rsa.js"></script>
+    <!--    <script src="js/crypto-js.js"></script>-->
+
 </head>
 <body>
 <button id="jiami" onclick="zhujie1()">前端解密，后端 注解 加密</button>
@@ -13,9 +24,10 @@
 
 <button id="jiami5" onclick="jiaqian1()">前端验签解密，后端 手动 加密加签</button>
 <button id="jiami6" onclick="jiaqian2()">前端加密加签，后端 手动 验签解密</button>
-<script src="js/jsrsasign-all-min.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
-<script src="https://cdn.bootcdn.net/ajax/libs/jsencrypt/3.0.0-rc.1/jsencrypt.js"></script>
+
+<button id="jiami7" onclick="aesDecode()">AES后端加密，前端解密</button>
+<button id="jiami8" onclick="aesEncode()">AES前端加密，后端解密</button>
+
 <script>
 
     var PUBLIC_KEY = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCYXuc2xustPv5d1LrzpSYu0VjUab+Wc55KQSmXmueJWVbKQeGBHbGF9sr3CN8R8fw6HxUAgu5iZD+Nh2PEJ4Dl31FYzVSKTm7Z3Y92mLrvdigGAm9fxSCInnXcQkUS0TFLhrviGF3zSfmfk0oKlwI1S/grTNGEjWeG1NUBtRPXdwIDAQAB';
@@ -30,20 +42,30 @@
     function RSA_encryption(jsonData) {
         var encrypt = new JSEncrypt();
         encrypt.setPublicKey(PUBLIC_KEY);
-        var encrypted = encrypt.encrypt(JSON.stringify(jsonData));
+        var encrypted = encrypt.encryptLong(JSON.stringify(jsonData));
         console.log('加密前数据:%o', jsonData);
         console.log('加密后数据:%o', encrypted);
+        console.log('加密前数据:%o', jsonData.length + " "+encrypted.length);
         return encrypted;
     }
 
+    function wx_RSA_encryption(data) {
+        var input_rsa = data;
+        var encrypt_rsa = new RSA.RSAKey();
+        encrypt_rsa = RSA.KEYUTIL.getKey(publicKey);
+        encStr = encrypt_rsa.encrypt(input_rsa);
+        encStr = RSA.hex2b64(encStr);
+        console.log("加密结果：" + encStr)
+    }
+
     /**
-     * 解密方法
+     * 私钥解密方法
      */
     function RSA_decryption(jsonData) {
         var decrypt = new JSEncrypt();
         decrypt.setPrivateKey(PRIVATE_KEY);
-        var decrypted = decrypt.decrypt(JSON.stringify(jsonData));
-        console.log('解密前数据:%o', jsonData);
+        var decrypted = decrypt.decryptLong(jsonData);
+        console.log('解密前数据:%o', jsonData);0
         console.log('解密后数据:%o', decrypted);
         return decrypted;
     }
@@ -55,23 +77,25 @@
         // prvkeypem：传入pem标准格式的秘钥字符串, 解析生成秘钥实例: RSAKey. 标准的pem格式秘钥含有开始标记和结束标记, 如本文使用的秘钥: -----BEGIN xxx-----, -----END xxx-----. 至于xxx的具体内容不是太重要, 代码里自动通过正则清洗掉头和尾标记
         var signature = new KJUR.crypto.Signature({alg: ALGORITHM, prvkeypem: '-----BEGIN PRIVATE KEY-----' + PRIVATE_KEY + '-----END PRIVATE KEY-----'});
         signature.updateString(encryptDate); // 传入待签明文
-        var sign = hextob64(signature.sign()); // 签名, 得到16进制字符结果 b64tohex
+        var sign = hextob64(signature.sign()); // 签名, hextob64得到16进制字符结果
         console.log('私钥加签数据:%o', sign);
         return sign + "&" + encryptDate;
     }
+
 
     /**
      * 公钥验签
      */
     function RSA_verify(encryptDate, sign) {
         var signature = new KJUR.crypto.Signature({alg: ALGORITHM, prvkeypem: '-----BEGIN PUBLIC KEY-----' + PUBLIC_KEY + '-----END PUBLIC KEY-----'});
-        signature.updateString(encryptDate); // 传入签文
-        var result = signature.verify(b64tohex(sign));// 解签, 得到字符结果
+        signature.updateString(encryptDate); // 传入签密文
+        var result = signature.verify(b64tohex(sign));// 解签, b64tohex得到字符结果
         console.log('加签:%o', sign);
         console.log('验签结果:%o', result);
         return result;
     }
 
+    // ====================================================================================================
     /**
      * 前端解密，后端 注解 加密
      */
@@ -99,13 +123,14 @@
             url: "/decrypt",
             type: "POST",
             contentType: "application/json;charset=utf-8",
-            data: RSA_encryption(str),
+            data: wx_RSA_encryption(str),
             success: function (data) {
                 alert(data);
             }
         })
     }
 
+    // ====================================================================================================
     /**
      * 前端解密，后端 手动 加密
      */
@@ -140,6 +165,7 @@
         })
     }
 
+    // ====================================================================================================
     /**
      * 前端验签解密，后端 手动 加密加签
      */
@@ -151,8 +177,8 @@
             success: function (reslut) {
                 var res = reslut.split("&");
                 var re = RSA_verify(res[1], res[0]);
-                var encryptDate = RSA_decryption(res[1]);
-                alert('验签结果：' + re + '\n' + '解密后数据：' + encryptDate);
+                var encryptDate = JSON.stringify(RSA_decryption(res[1]));
+                alert(re + ": " + encryptDate);
             }
         })
     }
@@ -178,6 +204,89 @@
         })
     }
 
+    // ====================================================================================================
+
+    /**
+     * 生成随机密钥
+     */
+    function randomString(length) {
+        var str = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var result = '';
+        for (var i = length; i > 0; --i)
+            result += str[Math.floor(Math.random() * str.length)];
+        return result.toString();
+    }
+
+    //aes加密
+    function encryptAES(context, key) {
+        var encrypted = '';
+        if (typeof (context) == 'string') {
+
+        } else if (typeof (context) == 'object') {
+            context = JSON.stringify(context);
+        }
+        var srcs = CryptoJS.enc.Utf8.parse(context);
+        encrypted = CryptoJS.AES.encrypt(srcs, CryptoJS.enc.Utf8.parse(key), {
+            iv: CryptoJS.enc.Utf8.parse("hWtTUQXdR54ZdoIt"),
+            // mode: CryptoJS.mode.ECB,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        return encrypted.toString();
+    }
+
+    // aes解密
+    function decryptAES(context, key) {
+        var decrypt = CryptoJS.AES.decrypt(context, CryptoJS.enc.Utf8.parse(key), {
+            iv:CryptoJS.enc.Utf8.parse("hWtTUQXdR54ZdoIt"),
+            // mode: CryptoJS.mode.ECB,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        var decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
+        return decryptedStr.toString();
+    }
+
+    /**
+     * AES后端加密，前端解密
+     */
+    function aesDecode() {
+        $.ajax({
+            url: "/encodeAES",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            success: function (reslut) {
+                var res = reslut.split("&");
+                var key = res[1];
+                var encryptDate = decryptAES(res[0], key);
+                alert(encryptDate + " : " + key);
+            }
+        })
+    }
+
+    /**
+     * AES前端加密，后端解密
+     */
+    function aesEncode() {
+        var k = randomString(16);
+        var str = {
+            "name": "AES加解密",
+            "passWord": "AES加解密"
+        };
+        var encryptDate = encryptAES(str,k)
+        $.ajax({
+            url: "/decodeAES",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            headers: {
+                "encodeKey": RSA_encryption(k)
+            },
+            data: encryptDate,
+            success: function (data) {
+                alert(data);
+            }
+        })
+    }
 </script>
 </body>
 </html>
