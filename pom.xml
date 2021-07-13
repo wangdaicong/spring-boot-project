@@ -5,13 +5,15 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>bloomFilter-demo</module>
-        <module>redis-bloomFilter-demo</module>
-        <module>scheduledTaskRegistrar-demo</module>
-        <module>rsa-encrypt-demo</module>
+        <module>bloomFilter-demo</module> <!--布尔过滤器-->
+        <module>redis-bloomFilter-demo</module> <!--redis整合布尔过滤器-->
+        <module>scheduledTaskRegistrar-demo</module> <!--动态增删启停定时任务-->
+        <module>rsa-encrypt-demo</module> <!--非对称加密RSA与对称加密AES-->
         <module>oauth-demo</module>
-        <module>scaffold-demo</module>
-        <module>imageProcessing-demo</module>
+        <module>scaffold-demo</module> <!--SpringBoot脚手架-->
+        <module>imageProcessing-demo</module> <!--Thumbnailator 图片处理类库-->
+        <module>redisDistributedLock-demo</module> <!--redis 分布式锁-->
+        <module>rabbitmq-delayed-demo</module> <!--rabbitmq 消息延迟推送，插件方式-->
     </modules>
 
     <parent>
