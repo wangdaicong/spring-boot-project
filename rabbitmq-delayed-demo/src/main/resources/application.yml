@@ -1,0 +1,32 @@
+server:
+  port: 8080
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    # 在RabbitMQ中可以虚拟消息服务器VirtualHost，每个VirtualHost相当月一个相对独立的RabbitMQ服务器，每个VirtualHost之间是相互隔离的。exchange、queue、message不能互通。
+    virtual-host: /
+    # 连接超时，单位毫秒，0表示无穷大，不超时
+    connection-timeout: 15000
+    # 开启confirm确认机制
+    #publisher-confirms: true
+    publisher-confirm-type: correlated
+    # 开启return确认机制
+    publisher-returns: true
+    # 设置为true后，路由不到队列的消息不会被自动删除，从而被return消息模式监听到
+  template:
+    mandatory: true
+  listener:
+    simple:
+      # 表示消息确认方式，其有三种配置方式，分别是none(不确认)、manual(手动确认)和auto(自动确认)；默认auto
+      acknowledge-mode: manual
+      # 最小消费者数量
+      concurrency: 1
+      # 最大消费者数量
+      max-concurrency: 10
+      # 在单个请求中处理的消息个数，必须大于等于transaction(事务)数量.
+      prefetch: 2
+      # 当ack模式为auto时，一个事务（ack间）处理的消息数量
+      #transaction-size:
