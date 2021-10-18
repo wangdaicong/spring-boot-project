@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:mysql:///数据库名?characterEncoding=utf8&amp;useUnicode=true
+    username:
+    password:
+    driver-class-name: com.mysql.jdbc.Driver
+
+mybatis:
+  # xml文件地址
+  mapper-locations: classpath:mapper/*Mapper.xml
+  # 打印mybatis的执行sql语句
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 开启驼峰自动转换
+    map-underscore-to-camel-case: true
+
+# 文件保存地址
+file:
+  filePath: E:/

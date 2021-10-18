@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Excel导入导出</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+</head>
+<body>
+<input id="submitFile" type="file"/>
+<p>
+    <button id="parseExcel">导入</button>
+    <button id="exportExcel">导出</button>
+
+    <script>
+        // 根据标签id，为导入按钮绑定事件
+        $("#parseExcel").click(function () {
+            // 获取用户上传的文件的绝对地址
+            var submitFileName = $("#submitFile").val();
+            // 从绝对地址中截取出后缀名
+            var suffix = submitFileName.substr(submitFileName.lastIndexOf(".") + 1);
+            // 判断是否为excel文件
+            if (suffix != "xls" && suffix != "xlsx") {
+                alert("不是excel文件");
+                return false;
+            }
+
+            //取得文件，使用到原生js的dom来取files属性
+            var submitFile = $("#submitFile")[0].files[0];
+
+            // 判断文件大小
+            if (submitFile.size > 1024 * 1024 * 5) {
+                alert("文件大小不超过5MB!");
+                return false;
+            }
+
+            /*
+                FormData是ajax定义的接口,可以模拟键值对向服务器提交数据
+                FormData类型的作用是可以提交文本数据,还可以提交二进制数据.
+            */
+            var formData = new FormData();
+            // 向服务器提交数据名称为"fileName"
+            formData.append("fileName", $("#submitFile")[0].files[0]);
+
+            /*
+                contentType:false
+                    默认情况下,ajax向服务器发送数据之前,
+                    把所有数据统一按照applciation/x-www-form-urlencoded编码格式进行编码;
+                    把contentType设置为false,能够阻止这种行为.
+                processData:false
+                    主要是配合contentType使用的,
+                    默认情况下,ajax把所有数据进行applciation/x-www-form-urlencoded编码之前,
+                    会把所有数据统一转化为字符串;把proccessData设置为false,可以阻止这种行为.
+            */
+            $.ajax({
+                url: "/uploadFile",
+                // url: "/uploadFileSelectList",
+                data: formData,
+                type: "post",
+                dataType: "json",
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data) {
+                        alert("上传成功");
+                    } else {
+                        alert("上传失败");
+                    }
+                }
+            })
+        })
+
+        // 根据标签id，为导出按钮绑定事件
+        $("#exportExcel").click(function () {
+            if (confirm("确定要导出所有数据吗？")) {
+                // 必须是传统请求
+                window.location.href = "http://127.0.0.1:8080/downloadFile";
+            }
+        })
+    </script>
+</body>
+</html>
