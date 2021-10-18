@@ -1,6 +1,4 @@
-# poi注解加反射实现通用excel导入导出
-
-https://github.com/xyz0101/excelutils
+# Excel导入导出注解通用版
 
 java中元注解有四个：@Target、@Retention、@Document、@Inherited；
 
