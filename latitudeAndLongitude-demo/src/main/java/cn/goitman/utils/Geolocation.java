@@ -25,7 +25,7 @@ public class Geolocation {
     /**
      * 百度地图密钥
      */
-    static final String AK = "Ti6CejGrNwAOpxGDExH2vQOMCBDA9y7T";
+    static final String AK = "";
     /**
      * 百度地图API
      */
@@ -35,7 +35,7 @@ public class Geolocation {
     static Map<String, String> hashMap = new HashMap<>();
 
     public static void main(String[] args) {
-        String address = "广州番禺天河城";
+        String address = "广州天河城";
         Map<String, String> msgMap = getCoordinate(address);
         System.out.println("msgMap 数据：" + msgMap);
         System.out.println("'" + address + "'的经纬度为：" + msgMap.get("lng") + "，" + msgMap.get("lat"));
