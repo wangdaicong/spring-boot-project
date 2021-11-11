@@ -31,6 +31,8 @@ public class Geolocation {
      */
     static final String URL = "https://api.map.baidu.com/geocoding/v3/?output=json&";
 
+    // static final String URL = "http://api.map.baidu.com/location/ip?&coor=bd09ll&";
+
     static Map<String, Object> map = new HashMap<String, Object>();
     static Map<String, String> hashMap = new HashMap<>();
 
@@ -39,6 +41,13 @@ public class Geolocation {
         Map<String, String> msgMap = getCoordinate(address);
         System.out.println("msgMap 数据：" + msgMap);
         System.out.println("'" + address + "'的经纬度为：" + msgMap.get("lng") + "，" + msgMap.get("lat"));
+
+/*        String addr = "203.168.30.174";
+        Map<String, String> msgMap = getCoordinate(addr);
+        System.out.println("msgMap 数据：" + msgMap);
+        System.out.println(String.format("IP地址区域为：%s；经纬度为：%s",
+                StringUtils.isEmpty(msgMap.get("city")) ? msgMap.get("address") : msgMap.get("city"),
+                msgMap.get("x") + "，" + msgMap.get("y")));*/
     }
 
     /**
@@ -88,6 +97,19 @@ public class Geolocation {
         }
         return hashMap;
     }
+
+/*    private static Map<String, String> analyticalField(Map<String, Object> map) {
+        Set<Map.Entry<String, Object>> entrySet = map.entrySet();
+        for (Map.Entry<String, Object> entry : entrySet) {
+            if ("content".equals(entry.getKey()) || "address_detail".equals(entry.getKey())
+                    || "point".equals(entry.getKey())) {
+                analyticalField(JSON.parseObject(entry.getValue().toString(), Map.class));
+            } else {
+                hashMap.put(entry.getKey(), entry.getValue().toString());
+            }
+        }
+        return hashMap;
+    }*/
 
     /**
      * 请求百度地图链接，获取相关信息
