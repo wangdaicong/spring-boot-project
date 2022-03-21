@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL
+    Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出
+    monitorInterval：Log4j2能够自动检测修改配置 文件和重新配置本身，设置间隔秒数
+
+    注意：若使用Weblogic服务器，修改项目中的文件不会自动加载生效(monitorInterval失效)，必须重启服务加载配置；
+    若在生产环境不能随便停止应用，但可通过编程方法来进行配置log4j2，从数据库中动态读取配置信息。
+-->
+<Configuration monitorInterval="60">
+
+    <!-- 变量配置 -->
+    <Properties>
+        <!--日志格式-->
+        <Property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [TRACEID:%X{traceId}] %-5p [%t] %c : %m%n"/>
+        <!--日志保存路径，以"/"开头为盘符下路径，无"/"开头为项目下路径-->
+        <Property name="file_path" value="logs"/>
+    </Properties>
+
+    <Appenders>
+        <!--日志输出到控制台-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN}"/>
+        </Console>
+        <!--日志输出到文件，滚动分割日志文件，自动打包gz-->
+        <RollingFile name="File" fileName="${file_path}/app.log" filePattern="${file_path}/archives/app-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATTERN}"/>
+            <Policies>
+                <!--以标准时间每小时执行一次日志滚动分割-->
+                <TimeBasedTriggeringPolicy interval="1" modulate="false"/>
+                <!--每当fileName日志文件超过指定大小，则按上述(app-%d{yyyy-MM-dd}-%i.log.gz)格式进行压缩存档至logs/archives/路径下-->
+                <SizeBasedTriggeringPolicy size="1 GB"/>
+            </Policies>
+            <!--fileIndex：nomax为忽略min和max属性值，压缩文件编号(%i)每次递增1，无编号的限制-->
+            <DefaultRolloverStrategy fileIndex="nomax">
+                <!--删除配置，防止日志文件所在分区的磁盘空间被占满，独立配置与TimeBasedTriggeringPolicy属性无关
+                maxDepth：指定扫描目录的最大层级（安全限制不能访问的情况除外）
+                        0表示仅能访问基准目录
+                        1(默认)表示仅扫描基准目录下的文件
+                -->
+                <Delete basePath="${file_path}" maxDepth="2">
+                    <!--根据匹配格式删除文件-->
+                    <IfFileName glob="*/app-*.log.gz">
+                        <!--IfAny相当于OR逻辑，满足任意一个条件则执行删除-->
+                        <IfAny>
+                            <!--文件总数大小上限值-->
+                            <IfAccumulatedFileSize exceeds="29 GB"/>
+                            <!--文件数上限值-->
+                            <IfAccumulatedFileCount exceeds="30"/>
+                            <!--删除超过1天的文件-->
+                            <IfLastModified age="1d"/>
+                        </IfAny>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!--
+            添加自定义logger，一般用于区分包名的日志，不同包名不同的级别/appender
+            additivity：默认true，禁止重复打印日志
+        -->
+        <!--
+            打印sql执行语句到控制台和文件，
+            需将mybatis配置中的sql打印修改为："log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl"
+        -->
+        <logger name="cn.goitman.dao" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+            <appender-ref ref="File"/>
+        </logger>
+
+        <!--日志级别-->
+        <Root level="INFO">
+            <!--测试环境-->
+            <AppenderRef ref="Console"/>
+            <!--正式环境-->
+            <AppenderRef ref="File"/>
+        </Root>
+
+        <!--过滤无用信息-->
+        <logger name="org.springframework" level="WARN"/>
+        <logger name="org.mybatis" level="WARN"/>
+        <logger name="com.zaxxer.hikari.HikariDataSource" level="WARN"/>
+        <logger name="org.apache.catalina.core" level="WARN"/>
+    </Loggers>
+</Configuration>
