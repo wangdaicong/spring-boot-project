@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.goitman.mapper.LikeDao">
+
+    <select id="getLikesList" resultType="cn.goitman.pojo.Likes">
+        select article_id,user_id,status from likes where article_id = #{articleId} and user_id = #{userId}
+    </select>
+
+    <insert id="saveLike" flushCache="true">
+        insert into likes (article_id,user_id,status)
+        values (#{articleId},#{userId},#{status})
+    </insert>
+
+    <update id="updataLike" flushCache="true">
+        update likes set status = #{status} where article_id = #{articleId} and user_id = #{userId}
+    </update>
+
+    <insert id="saveArticleList" parameterType="list" flushCache="true">
+        insert into article (article_id,Like_count)
+        values
+        <foreach collection="list" item="a" separator=",">
+            (#{a.articleId},#{a.LikeCount})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        article_id = values(article_id) ,Like_count = values(Like_count)
+    </insert>
+
+    <select id="getArticleData" resultType="cn.goitman.pojo.Article">
+        select article_id,Like_count from article where article_id = #{articleId}
+    </select>
+
+    <insert id="saveArticle" flushCache="true">
+        insert into article (article_id,Like_count) values (#{articleId},#{LikeCount})
+    </insert>
+
+    <update id="updataArticle" flushCache="true">
+        update article set Like_count = #{LikeCount} where article_id = #{articleId}
+    </update>
+
+</mapper>
