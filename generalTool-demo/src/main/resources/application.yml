@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+#    active: decrypt
+
+mybatis:
+  configuration:
+    # 开启驼峰自动转换
+    map-underscore-to-camel-case: true
+    # 打印mybatis的执行sql语句
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+  # xml文件路径
+  mapper-locations: classpath:mapper/*Dao.xml
