@@ -11,6 +11,7 @@
 | latitudeAndLongitude-demo    |   [经纬度的Geohash算法与两点距离算法](https://www.goitman.cn/2021/11/02/%E7%BB%8F%E7%BA%AC%E5%BA%A6%E7%9A%84Geohash%E7%AE%97%E6%B3%95%E4%B8%8E%E4%B8%A4%E7%82%B9%E8%B7%9D%E7%A6%BB%E7%AE%97%E6%B3%95/)|
 | throttling-demo    |   [限流组件设计实战](https://www.goitman.cn/2022/03/21/%E5%AE%9E%E6%88%98%E9%99%90%E6%B5%81%E7%BB%84%E4%BB%B6%E8%AE%BE%E8%AE%A1/)|
 | redisLikeDesign-demo    |   [redis高效点赞功能设计](https://www.goitman.cn/2022/05/25/Redis%E9%AB%98%E6%95%88%E7%82%B9%E8%B5%9E%E4%B8%8E%E5%8F%96%E6%B6%88%E5%8A%9F%E8%83%BD/)|
+| generalTool-demo    |   [通用 Service + 多线程完美解决批处理问题](https://www.goitman.cn/2022/07/19/%E9%80%9A%E7%94%A8Service%20+%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%8C%E7%BE%8E%E8%A7%A3%E5%86%B3%E6%89%B9%E5%A4%84%E7%90%86%E9%97%AE%E9%A2%98/)|
 
 
 

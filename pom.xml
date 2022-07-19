@@ -12,12 +12,13 @@
         <module>oauth-demo</module>
         <module>scaffold-demo</module> <!--SpringBoot脚手架-->
         <module>imageProcessing-demo</module> <!--Thumbnailator 图片处理类库-->
-        <module>redisDistributedLock-demo</module> <!--redis 分布式锁-->
+        <module>redisDistributedLock-demo</module> <!--redis 分布式锁 ，未上传github-->
         <module>rabbitmq-delayed-demo</module> <!--rabbitmq 消息延迟推送，插件方式-->
         <module>poi-importAndExport-demo</module> <!--poi注解加反射实现通用excel导入导出-->
         <module>latitudeAndLongitude-demo</module> <!--经纬度的Geohash算法与两点距离算法-->
         <module>throttling-demo</module> <!--限流组件设计实战-->
         <module>redisLikeDesign-demo</module> <!--redis高效点赞功能设计-->
+        <module>generalTool-demo</module> <!--通用工具-->
         <module>doubleBall-demo</module>
     </modules>
 
