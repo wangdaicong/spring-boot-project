@@ -36,7 +36,6 @@ public class ThreadPoolService {
     */
     public <T, U, R> void threadMethod(List<T> bigList, Class<U> mapperClass, BiFunction<List<T>, U, R> function) throws SQLException {
         long start = System.currentTimeMillis();
-        StopWatch stopWatch = new StopWatch();
 
         // 获取sql会话
         SqlSession sqlSession = sqlSessionFactory.openSession();
