@@ -5,6 +5,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StopWatch;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -35,6 +36,7 @@ public class ThreadPoolService {
     */
     public <T, U, R> void threadMethod(List<T> bigList, Class<U> mapperClass, BiFunction<List<T>, U, R> function) throws SQLException {
         long start = System.currentTimeMillis();
+        StopWatch stopWatch = new StopWatch();
 
         // 获取sql会话
         SqlSession sqlSession = sqlSessionFactory.openSession();
@@ -43,7 +45,7 @@ public class ThreadPoolService {
 
         // 获取CPU核心数
         int corePoolSize = Runtime.getRuntime().availableProcessors() + 1;
-        int maximumPoolSize = (int) Math.floor(bigList.size() / splitSize * 2);
+        int maximumPoolSize = corePoolSize * 2;
         int capacity = (int) Math.floor(maximumPoolSize / 2);
 
         /*

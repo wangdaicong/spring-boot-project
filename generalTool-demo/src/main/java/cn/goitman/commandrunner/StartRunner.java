@@ -1,6 +1,7 @@
 package cn.goitman.commandrunner;
 
 import cn.goitman.mapper.BallDao;
+import cn.goitman.mapper.BallTwoDao;
 import cn.goitman.pojo.Period;
 import cn.goitman.service.ThreadPoolService;
 import com.google.common.collect.Lists;
@@ -30,13 +31,13 @@ public class StartRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         List<Period> list = Lists.newArrayList();
 
-        int size = 10001;
+        int size = 100001;
         for (int i = 1; i < size; i++) {
             Period period = new Period(i + "", i + "", i + "", i + "", i + "", i + "", i + "");
             list.add(period);
         }
 
-        threadPoolService.threadMethod(list, BallDao.class, (data, BallDao) -> BallDao.insertPeriod(data));
-//        threadPoolService.threadMethod(list, BallTwoDao.class, (data, BallTwoDao) -> BallTwoDao.deletePeriod(data));
+//        threadPoolService.threadMethod(list, BallDao.class, (data, BallDao) -> BallDao.insertPeriod(data));
+        threadPoolService.threadMethod(list, BallTwoDao.class, (data, BallTwoDao) -> BallTwoDao.deletePeriod(data));
     }
 }
