@@ -12,6 +12,7 @@
 | throttling-demo    |   [限流组件设计实战](https://www.goitman.cn/2022/03/21/%E5%AE%9E%E6%88%98%E9%99%90%E6%B5%81%E7%BB%84%E4%BB%B6%E8%AE%BE%E8%AE%A1/)|
 | redisLikeDesign-demo    |   [redis高效点赞功能设计](https://www.goitman.cn/2022/05/25/Redis%E9%AB%98%E6%95%88%E7%82%B9%E8%B5%9E%E4%B8%8E%E5%8F%96%E6%B6%88%E5%8A%9F%E8%83%BD/)|
 | generalTool-demo    |   [通用 Service + 多线程完美解决批处理问题](https://www.goitman.cn/2022/07/19/%E9%80%9A%E7%94%A8Service%20+%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%8C%E7%BE%8E%E8%A7%A3%E5%86%B3%E6%89%B9%E5%A4%84%E7%90%86%E9%97%AE%E9%A2%98/)|
+| ip2region-demo    |   [IP 归属用 Ip2region 就够了](https://www.goitman.cn/2023/03/28/IP%20%E5%BD%92%E5%B1%9E%E7%94%A8%20Ip2region%20%E5%B0%B1%E5%A4%9F%E4%BA%86/)|
 
 
 
